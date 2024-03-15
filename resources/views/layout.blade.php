@@ -20,13 +20,16 @@
 
     <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/articles">Article</a>
+  <a class="navbar-brand" href="/">Main</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/article">Articles <span class="sr-only">(current)</span></a>
+      </li>
       <li class="nav-item active">
         <a class="nav-link" href="/contacts">Contacts <span class="sr-only">(current)</span></a>
       </li>
@@ -48,13 +51,30 @@
     </ul>
     <form class="form-inline my-2 my-lg-0">
       
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      <a href="/signin" class="btn btn-outline-success mr-2 my-2 my-sm-0" >Sign In</a>
+      <a href="/signup" class="btn btn-outline-success my-2 my-sm-0" >Sing Up</a>
     </form>
   </div>
 </nav>
     </header>
     <main>
+        @yield('layout')
         @yield('content')
-    </main>
-</body>
-</html>
+        <form action="registr", method="post">
+        <div class="form-group">
+    <label for="exampleInputName">Name</label>
+    <input type="text" class="form-control" id="exampleInputName">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+@endsectoin
