@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Hash;
-use App\Models;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     function signin(){
@@ -12,24 +13,48 @@ class AuthController extends Controller
     }
     
     function registr(Request $request){
-        $request()->validate([
+        $request->validate([
             'name'=>'required',
-            'email'=>'required',
-            'password'=>'required|mion:6'
+            'email'=>'required|unique:App\Models\User|email',
+            'password'=>'required|min:6'
         ]);
-        $response =[
-            'name'=>$response->name,
-            'email'=>$response->email,
-            'password'=>$response->password
-        ];
+        //$response =[
+           // 'name'=>$response->name,
+           // 'email'=>$response->email,
+           // 'password'=>$response->password
+       // ];
         //return response()->json($response);
-
-        User::crete([
-            'name'=>$response->name,
-            'email'=>$response->email,
-            'password'=>Hash::make($response->password),
+        $user= User::create([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'password'=>Hash::make($request->password),
         ]);
-        return redirect('/');
+        $user->createToken('MyAppTocens');
+        return redirect()->route('login');
+    }
 
+    function login(){
+        return view('auth.signup');
+    }
+    function signup(Request $request){
+        $credentials = $request->validate([
+            'email'=>'required',
+            'password'=>'required|min:6'
+        ]);
+        if (Auth::attempt($credentials)){
+            $request->session()->regenerate();
+            return redirect()->intended('/article');
+        }
+        return back()->withErrors([
+            'email'=>'The provided credentials do not math our records',
+        ])->onlyInput('email');
+    }
+
+    function logout(Request $request){
+        
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
     }
 }

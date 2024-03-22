@@ -36,6 +36,7 @@
   <div class="card-body">
     <h5 class="card-title">{{$comment->name}}</h5>
     <p class="card-text">{{$comment->desc}}</p>
+    @can('comment', $comment)
     <div class=btn-group>
     <a href="/article/{{$article->id}}/edit" class="btn btn-primary">Edit Comment</a>
     <form action="/article/{{$article->id}}" method="post">
@@ -44,6 +45,7 @@
     <button type= "sumbit" class="btn btn-dark"> Delete </button>
     </form>
 </div>
+@endcan 
   </div>
 </div>
 @endforeach
