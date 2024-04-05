@@ -17,16 +17,19 @@ use App\Http\Controllers\CommentController;
 |
 */
 
+//Comment
 Route::post('comment', [CommentController::class, 'store']);
-//Article
 
+//Article
 Route::resource('article', ArticleController::class)->middleware('auth:sanctum');
+
 //Auth
 Route::get('signin', [AuthController::class, 'signin']);
 Route::post('registr', [AuthController::class, 'registr']);
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('signup', [AuthController::class, 'signup']);
 Route::get('logout', [AuthController::class, 'logout']);
+
 //MainController
 Route::get('/', [MainController::class, 'index']);
 Route::get('/full-img/{img}', [MainController::class, 'show']);

@@ -60,9 +60,10 @@ return [
 
         'mailgun' => [
             'transport' => 'mailgun',
-            // 'client' => [
-            //     'timeout' => 5,
-            // ],
+
+            'domain'=> env('MAILGUN_dOMAIN'),
+            'secret'=> env('MAILGUN_SECRET'),
+            'endpoint'=> env('MAILGUN_ENDPOINT', 'api.eu.mailgun.net'),
         ],
 
         'sendmail' => [

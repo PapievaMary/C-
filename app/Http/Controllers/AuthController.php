@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 class AuthController extends Controller
 {
     function signin(){
@@ -51,10 +53,13 @@ class AuthController extends Controller
     }
 
     function logout(Request $request){
-        
+        $session = $request->session()->all();
+        Log::warning($session);
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        $session2 = $request->session()->all();
+        Log::warning($session2);
         return redirect('/');
     }
 }

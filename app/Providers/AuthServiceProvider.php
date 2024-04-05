@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Models\Comment;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -15,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        Article::class => ArticleControllerPoliticy::class
     ];
 
     /**
@@ -23,10 +24,13 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::before(function(User $user){
+            if ($user->role == 'moderator') return true;
+        });
         Gate::define('comment', function(User $user, Comment $comment){
             return ($comment->user_id == $user->id) ? 
             Response::allow():
-            Response::deny('You no author!');
+            Response::deny('not author!');
         });
     }
 }
