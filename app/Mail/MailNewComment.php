@@ -16,8 +16,8 @@ class MailNewComment extends Mailable
     /**
      * Create a new message instance.
      */
-    private $article;
-    public function __construct()
+    public $article;
+    public function __construct(public Article $article)
     {
         $this->article=$article;
     }
@@ -25,23 +25,31 @@ class MailNewComment extends Mailable
     /**
      * Get the message envelope.
      */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            from: new Adress(env('MAIL_FROM_ADDRESS'), '[email protected]')
-        );
-    }
+    // public function envelope(): Envelope
+    // {
+    //     return new Envelope(
+    //         from: new Adress(env('MAIL_FROM_ADDRESS'), '[email protected]')
+    //     );
+    // }
 
     /**
-     * Get the message content definition.
-     */
+    * Get the message content definition.
+    */
     public function content(): Content
     {
-        return new Content(
-            view: 'view.name',
-            with: ['article']
-        );
+     return new Content(
+            view: 'mail.comment',
+           
+         );
     }
+    // public function build()
+    // {
+    //     return $this-> from(env('MAIL_USERNAME'))
+    //                 ->with(['article'=>$this->$article])
+    //                 ->view('mail.comment') ;
+    // }
+
+
 
     /**
      * Get the attachments for the message.
