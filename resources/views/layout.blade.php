@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
@@ -35,20 +35,31 @@
       <li class="nav-item active">
         <a class="nav-link" href="/article/create">Create</a>
       </li>
+@can('accept')
+      <li class="nav-item">
+        <a class="nav-link" href="/comment">New Comment</a>
+      </li>
+@endcan
       <li class="nav-item">
         <a class="nav-link" href="#">Link</a>
       </li>
+      @auth
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-          Dropdown
+          Notify <span>{{auth()->user()->unreadNotifications()->count()}}</span>
         </a>
         <div class="dropdown-menu">
+          @foreach(auth()->user()->unreadNotifications as $notify)
+          <a class="dropdown-item" href="{{}}">Action</a>
+          /*
           <a class="dropdown-item" href="#">Action</a>
           <a class="dropdown-item" href="#">Another action</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a>
+          */
         </div>
       </li>
+      @endauth
     </ul>
     <div class="form-inline my-2 my-lg-0">
       @guest
@@ -64,6 +75,10 @@
     </header>
     <main>
       <div class="container">
+      <div id="app">
+    <App />
+ </div>
+
         @yield('content')
       </div>
     </main>

@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
+
 class ArticleControllerPolicy
 {
     /**
@@ -29,19 +30,17 @@ class ArticleControllerPolicy
      */
     public function create(User $user)
     {
-        return ($user->role =='moderator') ? 
-        Response::allow():
-        Response::deny('You aren`t moderator!');
+        return ($user->role == 'moderator') ? 
+            Response::allow() :
+            Response::deny('You aren`t moderator!');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Article $article)
+    public function update(User $user, Article $article): bool
     {
-        return ($user->role =='moderator') ? 
-        Response::allow():
-        Response::deny('You aren`t moderator!');
+        return $user->role == 'moderator';
     }
 
     /**
@@ -49,9 +48,10 @@ class ArticleControllerPolicy
      */
     public function delete(User $user, Article $article)
     {
-        return ($user->role =='moderator') ? 
-        Response::allow():
-        Response::deny('You aren`t moderator!');
+        return ($user->role == 'moderator') ? 
+            Response::allow() :
+            Response::deny('You aren`t moderator!');
+
     }
 
     /**

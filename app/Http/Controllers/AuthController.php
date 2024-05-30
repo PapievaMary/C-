@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+//use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -31,7 +31,8 @@ class AuthController extends Controller
             'email'=>$request->email,
             'password'=>Hash::make($request->password),
         ]);
-        $user->createToken('MyAppTocens');
+        $token= $user->createToken('MyAppTokens');
+        if ($request->expextsJson()) return response()->json($token);
         return redirect()->route('login');
     }
 
@@ -41,7 +42,7 @@ class AuthController extends Controller
     function signup(Request $request){
         $credentials = $request->validate([
             'email'=>'required',
-            'password'=>'required|min:6'
+            'password'=>'required'
         ]);
         if (Auth::attempt($credentials)){
             $request->session()->regenerate();
@@ -53,13 +54,15 @@ class AuthController extends Controller
     }
 
     function logout(Request $request){
-        $session = $request->session()->all();
-        Log::warning($session);
+        auth()->user()->tokens()->delete();
+        if ($request->expextsJson()) return response()->json('logout');
+        // $session = $request->session()->all();
+        // Log::warning($session);
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        $session2 = $request->session()->all();
-        Log::warning($session2);
+        // $session2 = $request->session()->all();
+        // Log::warning($session2);
         return redirect('/');
     }
 }

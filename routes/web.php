@@ -18,7 +18,14 @@ use App\Http\Controllers\CommentController;
 */
 
 //Comment
-Route::post('comment', [CommentController::class, 'store']);
+Route::resource('comment',CommentController::class);
+Route::controller(CommentController::Class)->group(function(){
+    Route::post('comment', 'store');
+    Route::get('comment', 'index')->name('comment.index');
+    Route::get('comment/{comment}/accept', 'accept');
+    Route::get('comment/{comment}/reject', 'reject');
+});
+
 
 //Article
 Route::resource('article', ArticleController::class)->middleware('auth:sanctum');

@@ -18,7 +18,6 @@
       <td>{{$article->shortDesc}}</td>
       <td>{{$article->desc}}</td>
       <td><a href="/full-img/{{$article->full_image}}"><img src="{{URL::asset($article->preview_image)}}"> </a></td>
-
     </tr>
     @endforeach
   </tbody>

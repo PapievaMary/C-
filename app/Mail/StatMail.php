@@ -7,17 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Article;
 
-class MailNewComment extends Mailable
+class StatMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public Article $article)
+    /**
+     * Create a new message instance.
+     */
+    public function __construct()
     {
-        // $this->article=$article;
+        //
     }
 
     /**
@@ -26,25 +27,19 @@ class MailNewComment extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('papievamary@mail.ru')
+            subject: 'Stat Mail',
         );
     }
 
     /**
-    * Get the message content definition.
-    */
+     * Get the message content definition.
+     */
     public function content(): Content
     {
-     return new Content(
-            view: 'mail.comment',
-         );
+        return new Content(
+            view: 'view.name',
+        );
     }
-    // public function build()
-    // {
-    //     return $this-> from(env('MAIL_USERNAME'))
-    //                 ->with(['article'=>$this->$article])
-    //                 ->view('mail.comment') ;
-    // }
 
     /**
      * Get the attachments for the message.
